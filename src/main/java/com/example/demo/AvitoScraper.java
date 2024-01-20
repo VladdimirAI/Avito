@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.mp3.MP3Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -126,9 +127,12 @@ import java.util.concurrent.TimeUnit;
 
 public class AvitoScraper {
 
-    private static AdInfo currentAdInfo = null; // Инициализируйте это, если нужно
+    private static AdInfo currentAdInfo = null;
+    static MP3Player mp3Player;
 
     public static void main(String[] args) {
+        mp3Player = new MP3Player();
+
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(AvitoScraper::checkForUpdates, 0, 30, TimeUnit.SECONDS);
     }
@@ -149,6 +153,9 @@ public class AvitoScraper {
                 String adDescription = scrapeAdDescription(firstAdInfo.getUrl());
                 System.out.println("Текст объявления: " + adDescription);
                 currentAdInfo = firstAdInfo; // Обновите текущий AdInfo
+               if( PhraseFinder.findPhrase(adDescription)){
+                   mp3Player.play("musicSignal.mp3");
+               }
             }
         } catch (IOException e) {
             System.err.println("Произошла ошибка при попытке проверить обновления: " + e.getMessage());
