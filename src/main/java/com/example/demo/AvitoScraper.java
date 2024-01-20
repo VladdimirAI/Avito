@@ -165,7 +165,7 @@ public class AvitoScraper {
             String title = adElement.select("h3[itemprop=name]").text();
             String adUrl = "https://www.avito.ru" + adElement.select("a[itemprop=url]").attr("href");
             String timePublished = adElement.select("p[data-marker=item-date]").text();
-            System.out.println("Логирование: время публикации - " + timePublished);
+//            System.out.println("Логирование: время публикации - " + timePublished);
             ads.add(new AdInfo(title, adUrl, timePublished));
         }
         return ads;
